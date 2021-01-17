@@ -16,3 +16,31 @@ var tbody = d3.select("tbody");
         tableRow.append('td').text(entry.comments);
         });
 
+        button.on("click",function() {
+            //Clear TBODY
+            tbody.html("");
+        
+            // select input and convert to date object and condition to value
+            var userDate = d3.select("#datetime");
+            var dateValue = userDate.property("value");
+           
+            // Filter the data based on the input
+            var filteredData = tableData.filter(tableData => tableData.datetime === dateValue);
+        
+            // Append filtered data to the table 
+            filteredData.forEach(function(info) {
+                var tableRow = tbody.append("tr");
+                Object.entries(info).forEach(function([key,value]) {
+                    var cell = tableRow.append("td");
+                    cell.text(value);
+        
+                });
+            });
+        // if statement for invalid date selection
+            if (filteredData.length == 0) {
+                var tableRow = tbody.append("tr");
+                var cell = tableRow.append("td");
+                cell.text("NO DATA AVAILABLE FOR INPUT DATE");
+            };
+        
+        });
